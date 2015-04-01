@@ -1,0 +1,199 @@
+{
+    "words": {
+        "understanding": {
+            "category": "open"
+        },
+        "reliable": {
+            "category": "open"
+        },
+        "easy": {
+            "category": "open"
+        },
+        "amazed": {
+            "category": "open"
+        },
+        "sympathetic": {
+            "category": "open"
+        },
+        "satisfied": {
+            "category": "open"
+        },
+        "kind": {
+            "category": "open"
+        },
+        "great": {
+            "category": "happy"
+        },
+        "joyous": {
+            "category": "happy"
+        },
+        "fortunate": {
+            "category": "happy"
+        },
+        "gleeful": {
+            "category": "happy"
+        },
+        "thankful": {
+            "category": "happy"
+        },
+        "important": {
+            "category": "happy"
+        },
+        "festive": {
+            "category": "happy"
+        },
+        "statisfied": {
+            "category": "happy"
+        },
+        "glad": {
+            "category": "happy"
+        },
+        "cheerful": {
+            "category": "happy"
+        },
+        "sunny": {
+            "category": "happy"
+        },
+        "merry": {
+            "category": "happy"
+        },
+        "courageous": {
+            "category": "alive"
+        },
+        "optimistic": {
+            "category": "alive"
+        },
+        "impulsive": {
+            "category": "alive"
+        },
+        "free": {
+            "category": "alive"
+        },
+        "wonderful": {
+            "category": "alive"
+        },
+        "calm": {
+            "category": "good"
+        },
+        "encouraged": {
+            "category": "good"
+        },
+        "relaxed": {
+            "category": "good"
+        },
+        "certain": {
+            "category": "good"
+        },
+        "loved": {
+            "category": "love"
+        },
+        "passionate": {
+            "category": "love"
+        },
+        "touched": {
+            "category": "love"
+        },
+        "devoted": {
+            "category": "love"
+        },
+        "tender": {
+            "category": "love"
+        },
+        "confident": {
+            "category": "positive"
+        },
+        "brave": {
+            "category": "positive"
+        },
+         "inspired": {
+            "category": "positive"
+        },
+        "determined": {
+            "category": "positive"
+        },
+         "excited": {
+            "category": "positive"
+        },
+        "irritated": {
+            "category": "angry"
+        },
+        "bitter": {
+            "category": "angry"
+        },
+        "fuming": {
+            "category": "angry"
+        },
+        "upset": {
+            "category": "angry"
+        },
+        "fearful": {
+            "category": "afraid"
+        },
+        "anxious": {
+            "category": "afraid"
+        },
+         "alarmed": {
+            "category": "afraid"
+        },
+        "cowardly": {
+            "category": "afraid"
+        },
+        "lonely": {
+            "category": "sad"
+        },
+        "dismayed": {
+            "category": "sad"
+        },
+        "pained": {
+            "category": "sad"
+        },
+        "unhappy": {
+            "category": "sad"
+        },
+        "crushed": {
+            "category": "hurt"
+        },
+        "alienated": {
+            "category": "hurt"
+        },
+        "wronged": {
+            "category": "hurt"
+        },
+        "rejected": {
+            "category": "hurt"
+        },
+        "lousy": {
+            "category": "depressed"
+        },
+        "powerless": {
+            "category": "depressed"
+        },
+        "discouraged": {
+            "category": "depressed"
+        },
+        "disgusting": {
+            "category": "depressed"
+        },
+        "terrible": {
+            "category": "depressed"
+        },
+        "guilty": {
+            "category": "depressed"
+        },
+        "uncertain": {
+            "category": "confused"
+        },
+        "shy": {
+            "category": "confused"
+        },
+        "skeptical": {
+            "category": "confused"
+        },
+        "uneasy": {
+            "category": "confused"
+        },
+        "lost": {
+            "category": "confused"
+        }
+    }
+}

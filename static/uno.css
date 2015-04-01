@@ -1,0 +1,71 @@
+.btn, .btn:hover, .btn:focus {
+    color: white;
+}
+tr {
+    color: white;
+}
+
+/* Colors from http://portfolio-max.blogspot.com/2014/10/web-designer-color-palette-2015.html */
+
+.open, .open:focus {
+    background-color: #4A89DC; /* Blue Jeans */
+}
+.open:hover {
+    background-color: #5D9CEC;
+}
+
+.positive, .positive:focus {
+    background-color: #37BC9B;  /* Mint */
+}
+.positive:hover {
+    background-color: #48CFAD;
+}
+
+.happy, .happy:focus {
+    background-color: #F6BB42; /* Sunflower */
+}
+.happy:hover {
+    background-color: #FFCE54;
+}
+
+.good, .good:focus {
+    background-color: #3BAFDA; /* Aqua */
+}
+.good:hover {
+    background-color: #4FC1E9;
+}
+
+.alive, .alive:focus, .love, .love:focus {
+    background-color: #D770AD; /* Pink Rose */
+}
+.alive:hover, .love:hover {
+    background-color: #EC87C0;
+}
+
+.angry, .angry:focus {
+    background-color: #E9573F; /* Bittersweet */
+}
+.angry:hover {
+    background-color: #FC6E51;
+}
+
+.afraid, .afraid:focus {
+    background-color: #DA4453; /* Grapefruit */
+}
+.afraid:hover {
+    background-color: #ED5565;
+}
+
+.sad, .sad:focus, .hurt, .hurt:focus {
+    background-color: #967ADC; /* Lavender */
+}
+.sad:hover, .hurt:hover {
+    background-color: #AC92EC;
+}
+
+.confused, .confused:focus, .depressed, .depressed:focus {
+    background-color: #8CC152; /* Grass */
+}
+.confused:hover, .depressed:hover {
+    background-color: #A0D468;
+}

@@ -1,0 +1,58 @@
+<html>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/uno.css">
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+
+    <head>
+        <title>One Word Journal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <span class="navbar-brand">One Word Journal</span>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="/">New Entry</a></li>
+                        <li><a href="#">My Journal</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <script type="text/javascript">
+            $(document).ready(function() {
+                var words_to_category = {};
+
+                $.get('/words', function(data) {
+                    var words = data["words"];
+                    $.each(words, function(word,word_info) {
+                       words_to_category[word] = word_info["category"];
+                    });
+
+                    $.get('/entries', function(data) {
+                        $('#entries_table').empty();
+                        for(var i = 0; i < data.length; i++) {
+                            var word = data[i]['word'];
+                            var word_category = words_to_category[word];
+                            var added_on = moment.utc(data[i]['added_on']);
+                            // populate the journal entries list
+                            $('#entries_table').append('<tr class="'+ word_category +'"><td>'+added_on.local().format('lll')+'</td><td>'+word+'</td></tr>');
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <table id="entries_table" class="table"></table>
+    </body>
+</html>
