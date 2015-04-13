@@ -32,15 +32,14 @@ def teardown_request(exception):
 
 
 # URL routing
-# TODO: move these to static if no server-side templating added
-@app.route('/', methods=['GET'])
-def index():
-    return render_template('index.html')
+@app.route('/<username>', methods=['GET'])
+def index(username):
+    return render_template('index.html', username=username)
 
 
-@app.route('/journal', methods=['GET'])
-def view_journal():
-    return render_template('journal.html')
+@app.route('/<username>/journal', methods=['GET'])
+def view_journal(username):
+    return render_template('journal.html', username=username)
 
 
 # Flask-restful classes
@@ -50,20 +49,34 @@ class Entries(Resource):
     """
     def get(self):
         parser = reqparse.RequestParser()
+        parser.add_argument('user', type=str, required=True, help="[required] Get this user's entries")
         parser.add_argument('max', type=int, help='Max number of entries to get')
-        query_string = 'select * from entries order by datetime(added_on) desc'
         args = parser.parse_args(strict=True)
-        if args['max']:
-            query_string += ' limit %d' % args['max']
-        entries = query_db(query_string)
+        user = query_db("select * from users where name='%s'" % args['user'], one=True)
+
+        entries = []
+        if user:
+            query_string = "select * from entries where user='%s' order by datetime(added_on) desc" % user['id']
+            if args['max']:
+                query_string += ' limit %d' % args['max']
+            entries = query_db(query_string)
         return entries
 
     def post(self):
         parser = reqparse.RequestParser()
         parser.add_argument('entry', type=str, required=True,
                             help='[required] One-word entry to add to this journal')
+        parser.add_argument('user', type=str, required=True,
+                            help="[required] Create a new entry for this user")
         args = parser.parse_args(strict=True)
-        g.db.execute('insert into entries (word) values (:word)', {'word': args['entry']})
+
+        user = query_db("select * from users where name='%s'" % args['user'], one=True)
+        if not user:
+            # Add user to database
+            g.db.execute("insert into users (name) values ('%s')" % args['user'])
+            user = query_db("select * from users where name='%s'" % args['user'], one=True)
+
+        g.db.execute("insert into entries (word, user) values ('%s', %d)" % (args['entry'], user['id']))
         g.db.commit()
 
 api.add_resource(Entries, '/entries')

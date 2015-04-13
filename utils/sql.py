@@ -9,6 +9,7 @@ def connect_db(db_path):
     Connect to the sqlite database at db_path.
     """
     conn = sqlite3.connect(db_path)
+    conn.execute("pragma foreign_keys=ON;")  # enforce foreign key constraints
     conn.row_factory = sqlite3.Row
     return conn
 
