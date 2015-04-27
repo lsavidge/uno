@@ -3,7 +3,7 @@
     <link rel="stylesheet" href="/static/uno.css">
     <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/3.5.5/d3.min.js"></script>
 
     <head>
         <title>One Word Journal</title>
@@ -11,63 +11,44 @@
     </head>
 
     <body>
-        <nav class="navbar navbar-default">
-            <div class="container-fluid">
-                <div class="navbar-header">
-                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
-                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
-                        <span class="sr-only">Toggle navigation</span>
-                    </button>
-                    <span class="navbar-brand">One Word Journal</span>
-                </div>
-                <div class="collapse navbar-collapse">
-                    <ul class="nav navbar-nav navbar-right">
-                        <li><a href="#">New Entry</a></li>
-                        <li><a href="{{ username }}/journal">My Journal</a></li>
-                    </ul>
+        <div class="jumbotron jumbotron-uno">
+            <div class="container">
+                <h1>One Word Journal</h1>
+            </div>
+        </div>
+        <div class="container">
+            <div class="row">
+                <div class="col-md-4 col-md-offset-4">
+                    <div class="input-group input-group-lg">
+                        <input type="text" class="form-control" id="username_textbox" placeholder="username">
+                        <span class="input-group-btn">
+                            <button class="btn positive" type="button" onclick="goToJournal();">Let's journal!</button>
+                        </span>
+                    </div>
                 </div>
             </div>
-        </nav>
+        </div>
+        <script>
+            var jumbotron_colors = ['#37BC9B', '#8CC152','#F6BB42', '#E9573F', '#DA4453', '#D770AD', '#967ADC', '#4A89DC','#3BAFDA'];
+            function transitionJumbotronColor (index) {
+                d3.select('.jumbotron').transition().duration(2000).delay(2000).style('background-color', jumbotron_colors[index])
+                        .each('end', function() { transitionJumbotronColor((index+1) % jumbotron_colors.length); });
+            }
 
-        <script type="text/javascript">
-            var MAX_PAST_ENTRIES = 10;
-            var words_to_category = {};
-            var user = '{{ username }}';
+            var first_index = Math.floor(Math.random()*(jumbotron_colors.length-1));
+            $('.jumbotron').css('background-color', jumbotron_colors[first_index]);
+            transitionJumbotronColor((first_index+1) % jumbotron_colors.length);
 
-            function loadEntries(entries_data) {
-                $('#entries_table').empty();
-                for (var i = 0; i < entries_data.length; i++) {
-                    var word = entries_data[i]['word'];
-                    var word_category = words_to_category[word];
-                    var added_on = moment.utc(entries_data[i]['added_on']);
-                    // populate the past entries table
-                    $('#entries_table').append('<tr class="' + word_category + '"><td>' + added_on.local().format('lll') + '</td><td>' + word + '</td></tr>');
+            function goToJournal() {
+                var username = $('#username_textbox').val();
+                window.location.href = window.location.href + username;
+            }
+            $('#username_textbox').keyup(function(event){
+                if(event.keyCode == 13){
+                    goToJournal();
                 }
-            }
-
-            function addEntry(word) {
-                $.post("entries", {'entry': word, 'user': user});
-                $.get('/entries', {'max': MAX_PAST_ENTRIES, 'user': user}, loadEntries);
-            }
-
-            $(document).ready(function() {
-                $.get('/words', function(data) {
-                    var words = data["words"];
-                    $.each(words, function(word,word_info) {
-                        // build up words_to_category
-                        words_to_category[word] = word_info["category"];
-                        // populate the word list
-                        $('#word_list').append('<button class="btn btn-default ' + word_info["category"] + '" onclick="addEntry(\'' + word + '\')">' + word + '</button>');
-                    });
-                    // populate entries once we know the words_to_category mapping
-                    $.get('/entries', { 'max': MAX_PAST_ENTRIES, 'user': user}, loadEntries);
-                });
             });
         </script>
-
-        <div id="word_list" align="center"></div>
-        <h3>Your recent entries</h3>
-        <table id="entries_table" class="table"></table>
-
     </body>
+
 </html>

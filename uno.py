@@ -9,7 +9,7 @@ from utils.words import load_words
 
 # Flask configuration
 DATABASE = os.path.join(os.path.dirname(os.path.abspath(__file__)), 'uno.db')
-DEBUG = False
+DEBUG = True
 
 # Set up flask
 app = Flask(__name__)
@@ -32,9 +32,14 @@ def teardown_request(exception):
 
 
 # URL routing
+@app.route('/')
+def index():
+    return render_template('index.html')
+
+
 @app.route('/<username>', methods=['GET'])
-def index(username):
-    return render_template('index.html', username=username)
+def user_home(username):
+    return render_template('user_home.html', username=username)
 
 
 @app.route('/<username>/journal', methods=['GET'])

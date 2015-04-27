@@ -1,0 +1,73 @@
+<html>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/css/bootstrap.min.css">
+    <link rel="stylesheet" href="/static/uno.css">
+    <script src="https://code.jquery.com/jquery-2.1.3.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.9.0/moment.min.js"></script>
+
+    <head>
+        <title>One Word Journal</title>
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+    </head>
+
+    <body>
+        <nav class="navbar navbar-default">
+            <div class="container-fluid">
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+                        <span class="glyphicon glyphicon-menu-hamburger" aria-hidden="true"></span>
+                        <span class="sr-only">Toggle navigation</span>
+                    </button>
+                    <a href="/"><span class="navbar-brand">One Word Journal</span></a>
+                </div>
+                <div class="collapse navbar-collapse">
+                    <ul class="nav navbar-nav navbar-right">
+                        <li><a href="#">New Entry</a></li>
+                        <li><a href="{{ username }}/journal">My Journal</a></li>
+                    </ul>
+                </div>
+            </div>
+        </nav>
+
+        <script type="text/javascript">
+            var MAX_PAST_ENTRIES = 10;
+            var words_to_category = {};
+            var user = '{{ username }}';
+
+            function loadEntries(entries_data) {
+                $('#entries_table').empty();
+                for (var i = 0; i < entries_data.length; i++) {
+                    var word = entries_data[i]['word'];
+                    var word_category = words_to_category[word];
+                    var added_on = moment.utc(entries_data[i]['added_on']);
+                    // populate the past entries table
+                    $('#entries_table').append('<tr class="' + word_category + '"><td>' + added_on.local().format('lll') + '</td><td>' + word + '</td></tr>');
+                }
+            }
+
+            function addEntry(word) {
+                $.post("entries", {'entry': word, 'user': user});
+                $.get('/entries', {'max': MAX_PAST_ENTRIES, 'user': user}, loadEntries);
+            }
+
+            $(document).ready(function() {
+                $.get('/words', function(data) {
+                    var words = data["words"];
+                    $.each(words, function(word,word_info) {
+                        // build up words_to_category
+                        words_to_category[word] = word_info["category"];
+                        // populate the word list
+                        $('#word_list').append('<button class="btn btn-default ' + word_info["category"] + '" onclick="addEntry(\'' + word + '\')">' + word + '</button>');
+                    });
+                    // populate entries once we know the words_to_category mapping
+                    $.get('/entries', { 'max': MAX_PAST_ENTRIES, 'user': user}, loadEntries);
+                });
+            });
+        </script>
+
+        <div id="word_list" align="center"></div>
+        <h3>Your recent entries</h3>
+        <table id="entries_table" class="table"></table>
+
+    </body>
+</html>
